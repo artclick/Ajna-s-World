@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprout · August · Ocean Month</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #0A1628;
+    --ocean: #0D2B45;
+    --teal: #0E4D5C;
+    --teal-light: #1A7A8A;
+    --aqua: #2ABFBF;
+    --aqua-light: #7DE0E0;
+    --coral: #E85D4A;
+    --coral-light: #F2A99A;
+    --sand: #F4EFE6;
+    --mist: #E8F4F5;
+    --pearl: #F0F8F8;
+    --gold: #C8992A;
+    --gold-light: #E8C060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--pearl); font-family: 'DM Sans', sans-serif; color: var(--deep); overflow-x: hidden; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--deep);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 80px 24px 120px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(42,191,191,0.15) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 10%, rgba(42,191,191,0.08) 0%, transparent 35%),
+      radial-gradient(ellipse at 50% 100%, rgba(10,22,40,0.9) 0%, transparent 50%),
+      radial-gradient(ellipse at 10% 70%, rgba(13,43,69,0.8) 0%, transparent 40%);
+  }
+
+  /* Bioluminescent particles */
+  .hero::after {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 40%, rgba(42,191,191,0.08) 2px, transparent 2px),
+      radial-gradient(circle at 70% 25%, rgba(42,191,191,0.06) 1px, transparent 1px),
+      radial-gradient(circle at 45% 65%, rgba(125,224,224,0.05) 2px, transparent 2px),
+      radial-gradient(circle at 85% 55%, rgba(42,191,191,0.07) 1px, transparent 1px);
+    background-size: 100px 100px, 70px 70px, 130px 130px, 90px 90px;
+  }
+
+  .hero-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--aqua); margin-bottom: 24px; position: relative; z-index: 1; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(72px,18vw,160px); font-weight: 700; font-style: italic; color: var(--sand); line-height: 0.85; letter-spacing: -3px; margin-bottom: 4px; position: relative; z-index: 1; }
+  .hero-subtitle { font-family: 'Playfair Display', serif; font-size: clamp(20px,5vw,36px); font-weight: 400; font-style: italic; color: var(--aqua); margin-bottom: 40px; position: relative; z-index: 1; }
+
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 56px; position: relative; z-index: 1; }
+  .pill { background: rgba(42,191,191,0.12); border: 1px solid rgba(42,191,191,0.25); color: var(--sand); padding: 7px 16px; border-radius: 99px; font-size: 12px; font-weight: 300; }
+
+  .scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.2); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; z-index: 1; }
+  .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(42,191,191,0.5), transparent); animation: pulse 2.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:.3}50%{opacity:1} }
+
+  /* WAVE DIVIDER */
+  .wave-divider { background: var(--deep); height: 80px; position: relative; overflow: hidden; }
+  .wave-divider svg { position: absolute; bottom: 0; width: 100%; }
+
+  /* SHARED */
+  section { padding: 72px 24px; max-width: 760px; margin: 0 auto; }
+  .section-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-tag::after { content: ''; flex: 1; height: 1px; background: var(--teal-light); opacity: 0.25; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px,5vw,46px); font-weight: 400; line-height: 1.15; margin-bottom: 32px; color: var(--deep); }
+
+  /* WHAT THEY NEED */
+  .needs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .need-card { background: var(--ocean); color: var(--sand); border-radius: 18px; padding: 24px 20px; position: relative; overflow: hidden; }
+  .need-card::before { content: attr(data-emoji); position: absolute; top: -8px; right: -4px; font-size: 60px; opacity: 0.1; line-height: 1; }
+  .need-card .need-emoji { font-size: 24px; margin-bottom: 10px; display: block; }
+  .need-card h3 { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--aqua-light); }
+  .need-card p { font-size: 12px; line-height: 1.55; color: rgba(244,239,230,0.65); font-weight: 300; }
+  .need-card.wide { grid-column: span 2; background: var(--coral); display: flex; gap: 16px; align-items: center; }
+  .need-card.wide h3 { color: var(--sand); }
+  .need-card.wide p { color: rgba(244,239,230,0.85); }
+
+  /* MONTESSORI */
+  .mont-list { display: flex; flex-direction: column; gap: 12px; }
+  .mont-item { background: var(--mist); border-radius: 16px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; border-left: 3px solid var(--teal-light); }
+  .mont-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .mont-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--ocean); }
+  .mont-item p { font-size: 12px; color: #3A5A5A; line-height: 1.55; font-weight: 300; }
+
+  /* OCEAN SECTION */
+  .ocean-section { background: var(--ocean); color: var(--sand); padding: 72px 0; width: 100%; max-width: 100%; }
+  .ocean-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .ocean-section .section-tag { color: var(--aqua); }
+  .ocean-section .section-tag::after { background: var(--aqua); opacity: 0.25; }
+  .ocean-section .section-title { color: var(--sand); }
+
+  .animals-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 40px; }
+  .animal-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(42,191,191,0.15); border-radius: 14px; padding: 16px 12px; text-align: center; }
+  .animal-emoji { font-size: 32px; margin-bottom: 6px; display: block; }
+  .animal-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--sand); margin-bottom: 3px; }
+  .animal-fact { font-size: 10px; color: var(--aqua); font-style: italic; font-weight: 300; }
+
+  .oceanarium-card { background: rgba(42,191,191,0.12); border: 1px solid rgba(42,191,191,0.25); border-radius: 18px; padding: 24px; margin-bottom: 28px; }
+  .oceanarium-card h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--aqua-light); margin-bottom: 8px; }
+  .oceanarium-card p { font-size: 13px; color: rgba(244,239,230,0.7); line-height: 1.6; font-weight: 300; }
+
+  .sg-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
+  .sg-list li { font-size: 12px; color: rgba(244,239,230,0.7); padding-left: 18px; position: relative; line-height: 1.5; font-weight: 300; }
+  .sg-list li::before { content: '→'; position: absolute; left: 0; color: var(--aqua); }
+
+  /* SENSORY */
+  .sensory-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+  .sensory-card { background: rgba(42,191,191,0.1); border: 1px solid rgba(42,191,191,0.2); border-radius: 14px; padding: 20px; display: flex; gap: 14px; }
+  .sensory-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 400; color: var(--teal-light); line-height: 1; flex-shrink: 0; width: 36px; }
+  .sensory-card h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; color: var(--sand); }
+  .sensory-card p { font-size: 12px; color: rgba(244,239,230,0.65); line-height: 1.55; font-weight: 300; }
+
+  /* GRIMMS SMALL WORLD */
+  .grimms-section { background: var(--teal); padding: 72px 0; width: 100%; max-width: 100%; }
+  .grimms-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .grimms-section .section-tag { color: var(--aqua-light); }
+  .grimms-section .section-tag::after { background: var(--aqua-light); opacity: 0.25; }
+  .grimms-section .section-title { color: var(--sand); }
+
+  .grimms-items { display: flex; flex-direction: column; gap: 12px; }
+  .grimms-item { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; display: flex; gap: 14px; }
+  .grimms-icon { font-size: 28px; flex-shrink: 0; }
+  .grimms-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; color: var(--aqua-light); }
+  .grimms-item p { font-size: 12px; color: rgba(244,239,230,0.65); line-height: 1.55; font-weight: 300; }
+
+  /* WALL IDEAS */
+  .wall-ideas { background: rgba(42,191,191,0.1); border: 1px solid rgba(42,191,191,0.2); border-radius: 16px; padding: 24px; }
+  .wall-ideas h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--aqua-light); margin-bottom: 14px; }
+  .wall-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .wall-list li { font-size: 12px; color: rgba(244,239,230,0.7); padding-left: 18px; position: relative; line-height: 1.5; font-weight: 300; }
+  .wall-list li::before { content: '→'; position: absolute; left: 0; color: var(--aqua); }
+
+  /* PLAY */
+  .play-items { display: flex; flex-direction: column; gap: 12px; }
+  .play-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: var(--mist); border-radius: 14px; }
+  .play-icon { font-size: 30px; flex-shrink: 0; }
+  .play-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; }
+  .play-item p { font-size: 12px; color: #3A5A5A; line-height: 1.55; font-weight: 300; }
+  .play-tag { display: inline-block; margin-top: 7px; background: var(--teal); color: white; font-size: 9px; padding: 3px 10px; border-radius: 99px; letter-spacing: 0.05em; font-weight: 500; }
+
+  /* POOL GAMES */
+  .pool-section { background: var(--deep); padding: 72px 0; width: 100%; max-width: 100%; }
+  .pool-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .pool-section .section-tag { color: var(--aqua); }
+  .pool-section .section-tag::after { background: var(--aqua); opacity: 0.25; }
+  .pool-section .section-title { color: var(--sand); }
+
+  .pool-items { display: flex; flex-direction: column; gap: 12px; }
+  .pool-item { background: rgba(42,191,191,0.08); border: 1px solid rgba(42,191,191,0.15); border-radius: 14px; padding: 20px; display: flex; gap: 14px; }
+  .pool-icon { font-size: 28px; flex-shrink: 0; }
+  .pool-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; color: var(--aqua-light); }
+  .pool-item p { font-size: 12px; color: rgba(244,239,230,0.6); line-height: 1.55; font-weight: 300; }
+
+  /* GROSS MOTOR */
+  .gross-items { display: flex; flex-direction: column; gap: 12px; }
+  .gross-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: var(--mist); border-radius: 14px; }
+  .gross-icon { font-size: 28px; flex-shrink: 0; }
+  .gross-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; }
+  .gross-item p { font-size: 12px; color: #3A5A5A; line-height: 1.55; font-weight: 300; }
+  .gross-tag { display: inline-block; margin-top: 7px; background: var(--teal); color: white; font-size: 9px; padding: 3px 10px; border-radius: 99px; letter-spacing: 0.05em; font-weight: 500; }
+
+  /* TANTRUMS */
+  .tantrum-section { background: var(--coral); padding: 72px 0; width: 100%; max-width: 100%; }
+  .tantrum-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .tantrum-section .section-tag { color: rgba(244,239,230,0.6); }
+  .tantrum-section .section-tag::after { background: rgba(244,239,230,0.3); }
+  .tantrum-section .section-title { color: var(--sand); }
+
+  .tantrum-intro { font-size: 14px; color: rgba(244,239,230,0.8); line-height: 1.7; font-weight: 300; margin-bottom: 32px; max-width: 600px; }
+
+  .tantrum-items { display: flex; flex-direction: column; gap: 12px; }
+  .tantrum-item { background: rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 22px; display: flex; gap: 14px; }
+  .tantrum-icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+  .tantrum-item h4 { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--sand); margin-bottom: 5px; }
+  .tantrum-item p { font-size: 12px; color: rgba(244,239,230,0.75); line-height: 1.6; font-weight: 300; }
+  .tantrum-credit { margin-top: 24px; font-size: 11px; color: rgba(244,239,230,0.4); font-style: italic; text-align: right; }
+
+  /* MATHS */
+  .maths-section { background: var(--mist); padding: 72px 24px; }
+  .maths-inner { max-width: 760px; margin: 0 auto; }
+  .maths-section .section-tag { color: var(--teal); }
+  .maths-section .section-tag::after { background: var(--teal); opacity: 0.25; }
+  .maths-concepts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .maths-concept { background: white; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid rgba(14,77,92,0.1); }
+  .concept-pair { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--teal); margin-bottom: 4px; }
+  .concept-example { font-size: 11px; color: rgba(10,22,40,0.45); font-weight: 300; font-style: italic; }
+  .maths-tip { background: var(--ocean); color: var(--sand); border-radius: 16px; padding: 24px; }
+  .maths-tip h4 { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--aqua); margin-bottom: 8px; }
+  .maths-tip p { font-size: 12px; color: rgba(244,239,230,0.65); line-height: 1.65; font-weight: 300; }
+
+  /* RESOURCES */
+  .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .resource-cat { background: var(--mist); border-radius: 14px; padding: 18px; }
+  .resource-cat.full { grid-column: span 2; background: var(--ocean); color: var(--sand); }
+  .resource-cat h4 { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--teal-light); }
+  .resource-cat.full h4 { color: var(--aqua); }
+  .resource-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .resource-list li { font-size: 11px; color: #3A5A5A; padding-left: 14px; position: relative; line-height: 1.4; font-weight: 300; }
+  .resource-cat.full .resource-list li { color: rgba(244,239,230,0.6); }
+  .resource-list li::before { content: '·'; position: absolute; left: 4px; color: var(--teal-light); font-weight: bold; }
+  .resource-cat.full .resource-list li::before { color: var(--aqua); }
+
+  /* GOLDEN RULE */
+  .golden-rule { background: var(--aqua); padding: 56px 24px; text-align: center; }
+  .golden-rule p { font-family: 'Playfair Display', serif; font-size: clamp(18px,4vw,26px); font-weight: 400; font-style: italic; color: var(--deep); max-width: 540px; margin: 0 auto; line-height: 1.4; }
+  .golden-rule strong { font-weight: 700; font-style: normal; }
+  .golden-rule a { display: inline-block; margin-top: 24px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(10,22,40,0.4); text-decoration: none; }
+
+  /* FADE */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 480px) {
+    .needs-grid { grid-template-columns: 1fr; }
+    .need-card.wide { flex-direction: column; grid-column: span 1; }
+    .animals-grid { grid-template-columns: repeat(2,1fr); }
+    .maths-concepts { grid-template-columns: 1fr; }
+    .resources-grid { grid-template-columns: 1fr; }
+    .resource-cat.full { grid-column: span 1; }
+    .play-item { flex-direction: column; gap: 8px; }
+    .gross-item { flex-direction: column; gap: 8px; }
+    .pool-item { flex-direction: column; gap: 8px; }
+    .tantrum-item { flex-direction: column; gap: 8px; }
+    .sensory-card { flex-direction: column; gap: 6px; }
+    .grimms-item { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Sprout · August · Month 15</div>
+  <h1 class="hero-title">Ocean</h1>
+  <p class="hero-subtitle">Into the deep</p>
+  <div class="hero-pills">
+    <span class="pill">🐬 Sea Animals</span>
+    <span class="pill">🧊 Ice play</span>
+    <span class="pill">🌊 Small world</span>
+    <span class="pill">🏊 Swimming</span>
+    <span class="pill">🎭 Pretend play</span>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>explore</div>
+</div>
+
+<!-- WAVE TRANSITION -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,80 L0,30 Q120,60 240,35 Q360,10 480,32 Q600,54 720,28 Q840,2 960,26 Q1080,50 1200,30 Q1320,10 1440,35 L1440,80 Z" fill="#0A1628"/>
+    <path d="M0,80 L0,50 Q180,30 360,48 Q540,66 720,45 Q900,24 1080,46 Q1260,68 1440,50 L1440,80 Z" fill="#0D2B45" opacity="0.7"/>
+  </svg>
+</div>
+
+<!-- WHAT THEY NEED -->
+<section class="fade-in">
+  <div class="section-tag">This month</div>
+  <h2 class="section-title">What your toddler<br>needs to learn</h2>
+  <div class="needs-grid">
+    <div class="need-card" data-emoji="💬">
+      <span class="need-emoji">💬</span>
+      <h3>Language expanding</h3>
+      <p>Toward 20+ words this month. Two-word combinations arriving — "big shark," "shark swimming." Name what they're doing as they do it.</p>
+    </div>
+    <div class="need-card" data-emoji="🎭">
+      <span class="need-emoji">🎭</span>
+      <h3>Pretend play arriving</h3>
+      <p>Single action schemes — making the dolphin jump, feeding the whale. Small and simple but significant. Symbolic thinking has arrived.</p>
+    </div>
+    <div class="need-card wide" data-emoji="🌊">
+      <span class="need-emoji" style="font-size:36px">🌊</span>
+      <div>
+        <h3>Building the mental model</h3>
+        <p>The ocean is abstract — a flat blue surface from shore. This month builds the idea that the sea has depth and animals live inside it. Bath time first, pool second, Oceanarium third. Each layer confirms the last.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONTESSORI ACTIVITIES -->
+<section class="fade-in">
+  <div class="section-tag">Simple activities</div>
+  <h2 class="section-title">Big impact<br>this month</h2>
+  <div class="mont-list">
+    <div class="mont-item">
+      <span class="mont-icon">🧽</span>
+      <div>
+        <h4>Sponge squeezing</h4>
+        <p>Bowl of water, sponge, empty bowl. Squeeze all the water from one to the other. New hand strength, ocean themed. "Full sponge. Squeeze. Empty sponge."</p>
+      </div>
+    </div>
+    <div class="mont-item">
+      <span class="mont-icon">🧊</span>
+      <div>
+        <h4>Precise pouring into ice cube trays</h4>
+        <p>Small pitcher, ice cube tray. Pour one compartment at a time. More precise targeting than pouring into a cup. One-to-one correspondence built in.</p>
+      </div>
+    </div>
+    <div class="mont-item">
+      <span class="mont-icon">🪢</span>
+      <div>
+        <h4>Threading — ocean mobile</h4>
+        <p>Thread penne or beads onto a blue pipe cleaner. The pipe cleaner is stiff enough to target easily. Hang it as an ocean mobile when done. The activity is the threading — the result lives in the room all month.</p>
+      </div>
+    </div>
+    <div class="mont-item">
+      <span class="mont-icon">🧺</span>
+      <div>
+        <h4>Cloth folding</h4>
+        <p>A small cloth folded in half. Simple, genuinely challenging at 15 months. Bilateral coordination and spatial reasoning in a practical life format.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OCEAN THEME -->
+<div class="ocean-section fade-in">
+  <div class="ocean-inner">
+    <div class="section-tag">August theme</div>
+    <h2 class="section-title">Ocean & sea animals</h2>
+
+    <div class="animals-grid">
+      <div class="animal-card"><span class="animal-emoji">🦈</span><div class="animal-name">Shark</div><div class="animal-fact">Fast swimmer</div></div>
+      <div class="animal-card"><span class="animal-emoji">🐬</span><div class="animal-name">Dolphin</div><div class="animal-fact">Jumps and clicks</div></div>
+      <div class="animal-card"><span class="animal-emoji">🐳</span><div class="animal-name">Whale</div><div class="animal-fact">Biggest animal</div></div>
+      <div class="animal-card"><span class="animal-emoji">🐙</span><div class="animal-name">Octopus</div><div class="animal-fact">Eight arms</div></div>
+      <div class="animal-card"><span class="animal-emoji">🐢</span><div class="animal-name">Turtle</div><div class="animal-fact">Slow and ancient</div></div>
+      <div class="animal-card"><span class="animal-emoji">🦭</span><div class="animal-name">Seal</div><div class="animal-fact">Loves cold water</div></div>
+      <div class="animal-card"><span class="animal-emoji">🐧</span><div class="animal-name">Penguin</div><div class="animal-fact">Swims like a bird</div></div>
+      <div class="animal-card"><span class="animal-emoji">🦀</span><div class="animal-name">Seahorse</div><div class="animal-fact">Tiny and slow</div></div>
+      <div class="animal-card"><span class="animal-emoji">🐻‍❄️</span><div class="animal-name">Polar bear</div><div class="animal-fact">Swims in ice</div></div>
+    </div>
+
+    <div class="oceanarium-card">
+      <h4>🏛️ S.E.A. Aquarium — visit early in the month</h4>
+      <p>The centrepiece of August. Sharks, rays, and jellyfish through glass with water all around. That single visit does more for the "animals live inside water" concept than any sensory bin can. Make it week one — everything else builds on what they see here.</p>
+    </div>
+
+    <ul class="sg-list">
+      <li>West Coast Park — hold a Mideer ocean figurine up in front of the sea. "Dolphin lives in there. Under the water."</li>
+      <li>Siloso Beach — wade in the shallows with the figurines.</li>
+      <li>Bath time every night — ocean animals in every bath. Drop one to the bottom, they reach in to retrieve it. Submerge, surface, name.</li>
+      <li>DK Ocean book alongside the figurines — photograph plus model plus word.</li>
+    </ul>
+
+    <p style="font-family:'Playfair Display',serif; font-size:20px; color:var(--aqua); margin-bottom:18px; font-style:italic;">Sensory Play Ideas</p>
+    <div class="sensory-cards">
+      <div class="sensory-card">
+        <div class="sensory-num">01</div>
+        <div>
+          <h4>Ice Excavation</h4>
+          <p>Ocean animals frozen individually into ice blocks. Excavate with warm water poured from a small cup. The anticipation of which animal is inside each block is the hook. Name each animal as it emerges.</p>
+        </div>
+      </div>
+      <div class="sensory-card">
+        <div class="sensory-num">02</div>
+        <div>
+          <h4>Blue Bicarbonate Fizz</h4>
+          <p>Blue-tinted bicarbonate with animals nestled inside, vinegar poured over. The fizzing ocean floor releasing the animals. Two transformation processes simultaneously — that's why it holds attention longer than static bins.</p>
+        </div>
+      </div>
+      <div class="sensory-card">
+        <div class="sensory-num">03</div>
+        <div>
+          <h4>Depth Play</h4>
+          <p>Clear bowl, blue water. Shallow layer — small animals float at the surface. Deep layer — larger animals fully submerged. "The fish stays shallow. The whale goes deep." Abstract concept made physical.</p>
+        </div>
+      </div>
+      <div class="sensory-card">
+        <div class="sensory-num">04</div>
+        <div>
+          <h4>Cloud Dough Ocean</h4>
+          <p>Blue cloud dough, animals buried inside. Excavate with hands. Different texture from ice — soft, mouldable, leaves impressions. Press a shell into it and lift — the shape remains.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wall-ideas">
+      <h4>🎨 Magnetic Wall — underwater scene</h4>
+      <ul class="wall-list">
+        <li>A3 blue paper as ocean backdrop — dark blue at the bottom (deep), lighter blue at the top (shallow)</li>
+        <li>Green marker seaweed and simple coral shapes — gives the animals a habitat</li>
+        <li>Ocean animals moved through zones — "the shark goes deep, the fish stays shallow"</li>
+        <li>Add a yellow circle sun above the waterline — above and below the surface made visible</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- GRIMMS SMALL WORLD -->
+<div class="grimms-section fade-in">
+  <div class="grimms-inner">
+    <div class="section-tag">Small world play</div>
+    <h2 class="section-title">Building an<br>ocean world</h2>
+    <div class="grimms-items">
+      <div class="grimms-item">
+        <span class="grimms-icon">🌊</span>
+        <div>
+          <h4>Four Elements — wave pieces as ocean floor</h4>
+          <p>The wave forms are literally named waves. Lay them flat — they become the ocean landscape. The cave piece becomes an underwater cave. Place ocean animals inside and around them. Set this up before he enters the room.</p>
+        </div>
+      </div>
+      <div class="grimms-item">
+        <span class="grimms-icon">🌈</span>
+        <div>
+          <h4>Large rainbow as wave arch</h4>
+          <p>The dolphin jumps through it. The whale passes underneath. At 15 months he won't construct this himself but he'll interact with your invitation — and begin making the animals do things. That's pretend play arriving.</p>
+        </div>
+      </div>
+      <div class="grimms-item">
+        <span class="grimms-icon">🩵</span>
+        <div>
+          <h4>Blue silk as ocean surface</h4>
+          <p>Drape a blue sheer cloth over the floor. Place animals underneath — he lifts the silk to find them. The translucent quality creates the underwater visual effect. The "animals live under the water" concept made tangible.</p>
+        </div>
+      </div>
+      <div class="grimms-item">
+        <span class="grimms-icon">✨</span>
+        <div>
+          <h4>The invitation setup</h4>
+          <p>Wave pieces arranged, silk draped, three animals underneath, two above the surface. Set up before he enters the room. Discovery of a pre-built scene creates a different quality of engagement than watching it being assembled.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAY -->
+<section class="fade-in">
+  <div class="section-tag">Play</div>
+  <h2 class="section-title">Toys &<br>puzzles</h2>
+  <div class="play-items">
+    <div class="play-item">
+      <span class="play-icon">🐬</span>
+      <div>
+        <h4>Language basket — ocean animals</h4>
+        <p>3-4 Mideer ocean figurines on a tray, rotated weekly. Pick up the shark, say "shark," let them hold it. Three period lesson: name it, find it, say it. By end of August they should have 5-6 ocean animal names.</p>
+        <span class="play-tag">Vocabulary · Three period lesson</span>
+      </div>
+    </div>
+    <div class="play-item">
+      <span class="play-icon">🐠</span>
+      <div>
+        <h4>Fish colour puzzle (Melissa and Doug)</h4>
+        <p>10 fish pieces in different colours. Colour matching adds a layer beyond spatial matching alone. The fish shape is familiar from ocean month. Good timing — accessible at 15 months and thematically coherent.</p>
+        <span class="play-tag">Colour matching · Fine motor · Puzzles</span>
+      </div>
+    </div>
+    <div class="play-item">
+      <span class="play-icon">🔷</span>
+      <div>
+        <h4>DoubleYX shape sorter — circle and square</h4>
+        <p>Circle should now be consistent. Square is the challenge this month — two correct orientations out of four. If square is consolidating, introduce triangle toward end of month.</p>
+        <span class="play-tag">Shape sorting · Spatial rotation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POOL GAMES -->
+<div class="pool-section fade-in">
+  <div class="pool-inner">
+    <div class="section-tag">Pool games</div>
+    <h2 class="section-title">Water as<br>the classroom</h2>
+    <div class="pool-items">
+      <div class="pool-item">
+        <span class="pool-icon">🪨</span>
+        <div>
+          <h4>Floating versus sinking</h4>
+          <p>Drop different objects in — the whale floats, a stone sinks. "Float. Sink." Simple observation, mathematical concept underneath.</p>
+        </div>
+      </div>
+      <div class="pool-item">
+        <span class="pool-icon">🌊</span>
+        <div>
+          <h4>Wave making</h4>
+          <p>Arm creates a wave, toy animal bobs. "The wave moves the dolphin." Cause and effect at water scale.</p>
+        </div>
+      </div>
+      <div class="pool-item">
+        <span class="pool-icon">🏊</span>
+        <div>
+          <h4>Swimming at 15 months</h4>
+          <p>Wall grab increasingly independent. Back float with lighter support. Kick practice beginning. Every session counts — the water confidence window is still open.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROSS MOTOR -->
+<section class="fade-in">
+  <div class="section-tag">Gross motor</div>
+  <h2 class="section-title">Moving the<br>whole body</h2>
+  <div class="gross-items">
+    <div class="gross-item">
+      <span class="gross-icon">🏖️</span>
+      <div>
+        <h4>Beach barefoot</h4>
+        <p>Sand is the richest gross motor surface available — unstable, varied, sensory-rich. Wet sand near the water edge develops balance faster than any flat surface.</p>
+        <span class="gross-tag">Proprioception · Balance · Sensory</span>
+      </div>
+    </div>
+    <div class="gross-item">
+      <span class="gross-icon">🏛️</span>
+      <div>
+        <h4>Oceanarium as walking environment</h4>
+        <p>Large space, ramps, varied floor textures. Let them walk as much as possible rather than being carried.</p>
+        <span class="gross-tag">Walking · Varied terrain · Stamina</span>
+      </div>
+    </div>
+    <div class="gross-item">
+      <span class="gross-icon">🏃</span>
+      <div>
+        <h4>Running arriving</h4>
+        <p>Fast walking that briefly loses ground contact. Open spaces, gentle chasing, running toward a destination. Falls are part of the process.</p>
+        <span class="gross-tag">Running · Coordination · Confidence</span>
+      </div>
+    </div>
+    <div class="gross-item">
+      <span class="gross-icon">🪜</span>
+      <div>
+        <h4>Stairs — coming down</h4>
+        <p>Going up is solid. Coming down facing the stairs, one step at a time, is the focus this month. Reduce hand-holding gradually.</p>
+        <span class="gross-tag">Bilateral coordination · Spatial confidence</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TANTRUMS -->
+<div class="tantrum-section fade-in">
+  <div class="tantrum-inner">
+    <div class="section-tag">When big feelings arrive</div>
+    <h2 class="section-title">Tantrum season<br>is beginning</h2>
+    <p class="tantrum-intro">The autonomy drive arrives before the language to express it. Tantrums aren't misbehaviour — they're a nervous system that hasn't developed its regulation tools yet. Your job isn't to stop the feeling. It's to stay regulated alongside it.</p>
+    <div class="tantrum-items">
+      <div class="tantrum-item">
+        <span class="tantrum-icon">🌬️</span>
+        <div>
+          <h4>You are the regulation</h4>
+          <p>His nervous system co-regulates with yours. When you stay calm, his system has something to borrow from. When you escalate, he escalates further. Your breath and your body posture are the intervention — not your words.</p>
+        </div>
+      </div>
+      <div class="tantrum-item">
+        <span class="tantrum-icon">🗣️</span>
+        <div>
+          <h4>Name the feeling first</h4>
+          <p>"You're frustrated. You wanted that." Simple, specific, calm. He doesn't need the feeling fixed — he needs it witnessed. Naming activates the left brain and begins to settle the storm. Say it before you solve anything.</p>
+        </div>
+      </div>
+      <div class="tantrum-item">
+        <span class="tantrum-icon">✌️</span>
+        <div>
+          <h4>Two yeses</h4>
+          <p>When he can't have what he wants, offer two genuine alternatives instead of a flat no. "You can't pull the cord but you can push this button or open this drawer." The autonomy drive is satisfied by having a choice — even if it's not the original one.</p>
+        </div>
+      </div>
+      <div class="tantrum-item">
+        <span class="tantrum-icon">🎙️</span>
+        <div>
+          <h4>Sportscast without fixing</h4>
+          <p>"You really wanted that toy. You're so angry right now." Running commentary without judgment, without rushing to solve it. The same narration you use for maths and language — applied to feelings. Witness first, fix second.</p>
+        </div>
+      </div>
+    </div>
+    <p class="tantrum-credit">Principles from Becky Kennedy — Good Inside</p>
+  </div>
+</div>
+
+<!-- MATHS -->
+<div class="maths-section fade-in">
+  <div class="maths-inner">
+    <div class="section-tag">Early maths</div>
+    <h2 class="section-title" style="color:var(--teal);">How maths sounds<br>in August</h2>
+    <div class="maths-concepts">
+      <div class="maths-concept"><div class="concept-pair">Deep / Shallow</div><div class="concept-example">"Shark goes deep, crab stays shallow."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Above / Below</div><div class="concept-example">"Bird above, fish below."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Big / Small</div><div class="concept-example">"Big whale, small fish."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Fast / Slow</div><div class="concept-example">"Fast shark, slow turtle."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Full / Empty</div><div class="concept-example">"Full sponge. Squeeze. Empty."</div></div>
+      <div class="maths-concept"><div class="concept-pair">More / Less</div><div class="concept-example">"More fish on this side."</div></div>
+    </div>
+    <div class="maths-tip">
+      <h4>New this month — above and below</h4>
+      <p>The ocean introduces a spatial concept that transport month didn't have — vertical position. Above and below the water surface. The shark goes deep, the seagull flies above. Use the sensory bowl, the bath, and the magnetic wall backdrop to make this physical and visible before it becomes a word.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<section class="fade-in">
+  <div class="section-tag">What we have</div>
+  <h2 class="section-title">Resources at home<br>for August</h2>
+  <div class="resources-grid">
+    <div class="resource-cat">
+      <h4>🐬 Ocean Animals</h4>
+      <ul class="resource-list">
+        <li>Mideer large ocean set — 11 pieces</li>
+        <li>DK Ocean book</li>
+        <li>Mideer pocket sea animals</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🌊 Grimm's Small World</h4>
+      <ul class="resource-list">
+        <li>Four Elements — wave pieces</li>
+        <li>Large rainbow — wave arch</li>
+        <li>Blue sheer cloth — ocean surface</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🌿 Sensory</h4>
+      <ul class="resource-list">
+        <li>Blue food colouring</li>
+        <li>Bicarbonate + vinegar</li>
+        <li>Cloud dough materials</li>
+        <li>Sponges</li>
+        <li>Ice cube tray</li>
+        <li>Small pitcher</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🧩 Fine Motor & Puzzles</h4>
+      <ul class="resource-list">
+        <li>Fish colour puzzle (M&D)</li>
+        <li>Mideer Level Up L1 — 3 & 4 piece</li>
+        <li>DoubleYX shape sorter</li>
+        <li>Lacing beads + thread</li>
+        <li>Chunky wooden tongs</li>
+        <li>Penne + blue pipe cleaner</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🎨 Art</h4>
+      <ul class="resource-list">
+        <li>Honeysticks crayons</li>
+        <li>IKEA coloured paper — blue sheets</li>
+        <li>Finger paints</li>
+        <li>Green marker for seaweed wall</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🪨 Gross Motor</h4>
+      <ul class="resource-list">
+        <li>Swimming lessons — weekly</li>
+        <li>Balance bike</li>
+        <li>Stairs daily</li>
+        <li>Ball pit weekly</li>
+      </ul>
+    </div>
+    <div class="resource-cat full">
+      <h4>🇸🇬 Singapore outings for ocean month</h4>
+      <ul class="resource-list" style="display:grid; grid-template-columns:1fr 1fr; gap:5px 24px;">
+        <li>S.E.A. Aquarium — week one</li>
+        <li>West Coast Park — ocean edge</li>
+        <li>Siloso Beach — wade in shallows</li>
+        <li>East Coast Park — ships on horizon</li>
+        <li>Palawan Beach — calm water</li>
+        <li>Any hawker near the sea</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GOLDEN RULE -->
+<div class="golden-rule">
+  <p>"The sea has no floor from where they stand. Your job this month is to make the <strong>invisible world visible.</strong>"</p>
+  <a href="index.html">← Back to Sprout</a>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
