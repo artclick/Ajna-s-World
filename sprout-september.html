@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprout · September · Fruit & Food</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ripe: #C4362A;
+    --mango: #E8872A;
+    --mango-light: #F5B060;
+    --leaf: #3A6B35;
+    --leaf-light: #5A9B52;
+    --cream: #FAF6EF;
+    --parchment: #F5EDD8;
+    --bark: #2C1A0A;
+    --bark-light: #5C3A1A;
+    --lemon: #E8C840;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); font-family: 'DM Sans', sans-serif; color: var(--bark); overflow-x: hidden; }
+
+  .hero {
+    min-height: 100vh; background: var(--leaf);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 80px 24px 120px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 20%, rgba(232,135,42,0.25) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 15%, rgba(232,200,64,0.15) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 100%, rgba(44,26,10,0.6) 0%, transparent 50%);
+  }
+  .hero-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--mango-light); margin-bottom: 24px; position: relative; z-index: 1; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(72px,18vw,160px); font-weight: 700; font-style: italic; color: var(--cream); line-height: 0.85; letter-spacing: -3px; margin-bottom: 4px; position: relative; z-index: 1; }
+  .hero-subtitle { font-family: 'Playfair Display', serif; font-size: clamp(20px,5vw,36px); font-weight: 400; font-style: italic; color: var(--mango-light); margin-bottom: 40px; position: relative; z-index: 1; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 56px; position: relative; z-index: 1; }
+  .pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: var(--cream); padding: 7px 16px; border-radius: 99px; font-size: 12px; font-weight: 300; }
+  .scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.2); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; z-index: 1; }
+  .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(232,135,42,0.6), transparent); animation: pulse 2.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:.3}50%{opacity:1} }
+
+  .harvest-divider { background: var(--leaf); height: 70px; position: relative; overflow: hidden; }
+  .harvest-divider svg { position: absolute; bottom: 0; width: 100%; }
+
+  section { padding: 72px 24px; max-width: 760px; margin: 0 auto; }
+  .section-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--leaf-light); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-tag::after { content: ''; flex: 1; height: 1px; background: var(--leaf-light); opacity: 0.25; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px,5vw,46px); font-weight: 400; line-height: 1.15; margin-bottom: 32px; color: var(--bark); }
+
+  /* SNAPSHOT */
+  .snapshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .snapshot-card { background: var(--parchment); border-radius: 14px; padding: 18px 20px; border-left: 3px solid var(--leaf); }
+  .snapshot-card h4 { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--leaf); margin-bottom: 8px; }
+  .snapshot-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .snapshot-list li { font-size: 11px; color: var(--bark-light); padding-left: 12px; position: relative; line-height: 1.45; font-weight: 300; }
+  .snapshot-list li::before { content: '·'; position: absolute; left: 3px; color: var(--mango); font-weight: bold; }
+
+  /* WHAT THEY NEED */
+  .needs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .need-card { background: var(--leaf); color: var(--cream); border-radius: 18px; padding: 24px 20px; position: relative; overflow: hidden; }
+  .need-card::before { content: attr(data-emoji); position: absolute; top: -8px; right: -4px; font-size: 60px; opacity: 0.1; line-height: 1; }
+  .need-card .need-emoji { font-size: 24px; margin-bottom: 10px; display: block; }
+  .need-card h3 { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--mango-light); }
+  .need-card p { font-size: 12px; line-height: 1.55; color: rgba(250,246,239,0.7); font-weight: 300; }
+  .need-card.wide { grid-column: span 2; background: var(--ripe); display: flex; gap: 16px; align-items: center; }
+  .need-card.wide h3 { color: var(--cream); }
+  .need-card.wide p { color: rgba(250,246,239,0.85); }
+
+  /* INQUIRY */
+  .inquiry-section { background: var(--bark); color: var(--cream); padding: 72px 0; width: 100%; max-width: 100%; }
+  .inquiry-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .inquiry-section .section-tag { color: var(--mango-light); }
+  .inquiry-section .section-tag::after { background: var(--mango-light); opacity: 0.25; }
+  .inquiry-section .section-title { color: var(--cream); }
+  .inquiry-intro { font-size: 13px; color: rgba(250,246,239,0.6); line-height: 1.7; font-weight: 300; margin-bottom: 36px; max-width: 580px; }
+  .inquiry-cards { display: flex; flex-direction: column; gap: 20px; }
+  .inquiry-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; }
+  .inquiry-header { background: rgba(232,135,42,0.15); border-bottom: 1px solid rgba(232,135,42,0.2); padding: 18px 22px; display: flex; align-items: center; gap: 14px; }
+  .inquiry-emoji { font-size: 32px; }
+  .inquiry-header h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--mango-light); }
+  .inquiry-header .phonics { font-size: 11px; color: rgba(250,246,239,0.4); font-weight: 300; letter-spacing: 0.1em; margin-top: 2px; }
+  .inquiry-steps { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+  .inquiry-step { display: flex; gap: 12px; align-items: flex-start; }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--mango); font-weight: 600; flex-shrink: 0; width: 18px; margin-top: 1px; }
+  .step-text { font-size: 12px; color: rgba(250,246,239,0.7); line-height: 1.55; font-weight: 300; }
+  .step-text strong { color: var(--mango-light); font-weight: 500; }
+  .inquiry-note { margin: 0 22px 18px; background: rgba(232,135,42,0.1); border-radius: 10px; padding: 10px 14px; font-size: 11px; color: rgba(250,246,239,0.5); font-style: italic; line-height: 1.5; }
+
+  /* FRUIT VOCAB */
+  .fruit-section { background: var(--parchment); padding: 72px 0; width: 100%; max-width: 100%; }
+  .fruit-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .fruit-section .section-tag { color: var(--leaf); }
+  .fruit-section .section-tag::after { background: var(--leaf); opacity: 0.25; }
+  .fruit-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 28px; }
+  .fruit-card { background: white; border-radius: 14px; padding: 16px 12px; text-align: center; border: 1px solid rgba(44,26,10,0.08); }
+  .fruit-emoji { font-size: 30px; margin-bottom: 6px; display: block; }
+  .fruit-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--bark); margin-bottom: 3px; }
+  .fruit-word { font-size: 10px; color: var(--leaf); font-weight: 500; }
+  .basket-note { background: var(--leaf); color: var(--cream); border-radius: 16px; padding: 20px 24px; }
+  .basket-note h4 { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--mango-light); margin-bottom: 6px; }
+  .basket-note p { font-size: 12px; color: rgba(250,246,239,0.7); line-height: 1.6; font-weight: 300; }
+
+  /* MONTESSORI */
+  .mont-list { display: flex; flex-direction: column; gap: 12px; }
+  .mont-item { background: var(--parchment); border-radius: 14px; padding: 20px 22px; display: flex; gap: 14px; border-left: 3px solid var(--leaf-light); }
+  .mont-icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+  .mont-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .mont-item p { font-size: 12px; color: var(--bark-light); line-height: 1.55; font-weight: 300; }
+
+  /* ART */
+  .art-section { background: var(--ripe); padding: 72px 0; width: 100%; max-width: 100%; }
+  .art-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .art-section .section-tag { color: rgba(250,246,239,0.55); }
+  .art-section .section-tag::after { background: rgba(250,246,239,0.3); }
+  .art-section .section-title { color: var(--cream); }
+  .art-items { display: flex; flex-direction: column; gap: 12px; }
+  .art-item { background: rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 22px; display: flex; gap: 14px; }
+  .art-icon { font-size: 28px; flex-shrink: 0; }
+  .art-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; color: var(--cream); }
+  .art-item p { font-size: 12px; color: rgba(250,246,239,0.7); line-height: 1.55; font-weight: 300; }
+
+  /* PLAYDOUGH */
+  .dough-section { background: var(--mango); padding: 72px 0; width: 100%; max-width: 100%; }
+  .dough-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .dough-section .section-tag { color: rgba(44,26,10,0.5); }
+  .dough-section .section-tag::after { background: rgba(44,26,10,0.3); }
+  .dough-section .section-title { color: var(--bark); }
+  .dough-items { display: flex; flex-direction: column; gap: 12px; }
+  .dough-item { background: rgba(255,255,255,0.2); border-radius: 14px; padding: 18px 20px; display: flex; gap: 14px; }
+  .dough-icon { font-size: 26px; flex-shrink: 0; }
+  .dough-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; color: var(--bark); }
+  .dough-item p { font-size: 12px; color: rgba(44,26,10,0.65); line-height: 1.55; font-weight: 300; }
+
+  /* SENSORY */
+  .sensory-cards { display: flex; flex-direction: column; gap: 12px; }
+  .sensory-card { background: white; border-radius: 14px; padding: 18px 20px; display: flex; gap: 14px; border-left: 3px solid var(--mango); }
+  .sensory-num { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 400; color: var(--mango); line-height: 1; flex-shrink: 0; width: 32px; }
+  .sensory-card h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; color: var(--bark); }
+  .sensory-card p { font-size: 12px; color: var(--bark-light); line-height: 1.55; font-weight: 300; }
+
+  /* MECHANISM */
+  .mech-section { background: var(--bark); padding: 72px 0; width: 100%; max-width: 100%; }
+  .mech-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .mech-section .section-tag { color: var(--mango-light); }
+  .mech-section .section-tag::after { background: var(--mango-light); opacity: 0.25; }
+  .mech-section .section-title { color: var(--cream); }
+  .mech-items { display: flex; flex-direction: column; gap: 12px; }
+  .mech-item { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 18px 20px; display: flex; gap: 14px; }
+  .mech-icon { font-size: 26px; flex-shrink: 0; }
+  .mech-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; color: var(--mango-light); }
+  .mech-item p { font-size: 12px; color: rgba(250,246,239,0.6); line-height: 1.55; font-weight: 300; }
+
+  /* GROSS MOTOR */
+  .gross-items { display: flex; flex-direction: column; gap: 12px; }
+  .gross-item { display: flex; gap: 16px; align-items: flex-start; padding: 18px 20px; background: var(--parchment); border-radius: 14px; }
+  .gross-icon { font-size: 26px; flex-shrink: 0; }
+  .gross-item h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 4px; }
+  .gross-item p { font-size: 12px; color: var(--bark-light); line-height: 1.55; font-weight: 300; }
+  .gross-tag { display: inline-block; margin-top: 7px; background: var(--leaf); color: white; font-size: 9px; padding: 3px 10px; border-radius: 99px; font-weight: 500; }
+
+  /* MATHS */
+  .maths-section { background: var(--leaf); padding: 72px 24px; }
+  .maths-inner { max-width: 760px; margin: 0 auto; }
+  .maths-section .section-tag { color: var(--mango-light); }
+  .maths-section .section-tag::after { background: var(--mango-light); opacity: 0.25; }
+  .maths-section .section-title { color: var(--cream); }
+  .maths-concepts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .maths-concept { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; text-align: center; }
+  .concept-pair { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--cream); margin-bottom: 4px; }
+  .concept-example { font-size: 11px; color: rgba(250,246,239,0.5); font-weight: 300; font-style: italic; }
+  .maths-tip { background: var(--bark); color: var(--cream); border-radius: 16px; padding: 22px; }
+  .maths-tip h4 { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--mango-light); margin-bottom: 8px; }
+  .maths-tip p { font-size: 12px; color: rgba(250,246,239,0.65); line-height: 1.65; font-weight: 300; }
+
+  /* RESOURCES */
+  .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .resource-cat { background: var(--parchment); border-radius: 14px; padding: 18px; }
+  .resource-cat.full { grid-column: span 2; background: var(--leaf); }
+  .resource-cat h4 { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--leaf); }
+  .resource-cat.full h4 { color: var(--mango-light); }
+  .resource-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .resource-list li { font-size: 11px; color: var(--bark-light); padding-left: 14px; position: relative; line-height: 1.4; font-weight: 300; }
+  .resource-cat.full .resource-list li { color: rgba(250,246,239,0.65); }
+  .resource-list li::before { content: '·'; position: absolute; left: 4px; color: var(--leaf); font-weight: bold; }
+  .resource-cat.full .resource-list li::before { color: var(--mango-light); }
+
+  /* GOLDEN RULE */
+  .golden-rule { background: var(--ripe); padding: 56px 24px; text-align: center; }
+  .golden-rule p { font-family: 'Playfair Display', serif; font-size: clamp(18px,4vw,26px); font-weight: 400; font-style: italic; color: var(--cream); max-width: 540px; margin: 0 auto; line-height: 1.4; }
+  .golden-rule strong { font-weight: 700; font-style: normal; }
+  .golden-rule a { display: inline-block; margin-top: 24px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,246,239,0.4); text-decoration: none; }
+
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 480px) {
+    .snapshot-grid { grid-template-columns: 1fr; }
+    .needs-grid { grid-template-columns: 1fr; }
+    .need-card.wide { flex-direction: column; grid-column: span 1; }
+    .fruit-grid { grid-template-columns: repeat(2,1fr); }
+    .maths-concepts { grid-template-columns: 1fr; }
+    .resources-grid { grid-template-columns: 1fr; }
+    .resource-cat.full { grid-column: span 1; }
+    .mont-item { flex-direction: column; gap: 8px; }
+    .art-item { flex-direction: column; gap: 8px; }
+    .dough-item { flex-direction: column; gap: 8px; }
+    .sensory-card { flex-direction: column; }
+    .mech-item { flex-direction: column; gap: 8px; }
+    .gross-item { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Sprout · September · Month 16</div>
+  <h1 class="hero-title">Fruit</h1>
+  <p class="hero-subtitle">& food</p>
+  <div class="hero-pills">
+    <span class="pill">🍎 Fruit</span>
+    <span class="pill">🔬 Inquiry</span>
+    <span class="pill">🎨 Stamping</span>
+    <span class="pill">🫘 Playdough</span>
+    <span class="pill">🔪 Real tools</span>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>explore</div>
+</div>
+
+<!-- DIVIDER -->
+<div class="harvest-divider">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,70 L0,25 Q120,50 240,28 Q360,6 480,26 Q600,46 720,22 Q840,0 960,20 Q1080,40 1200,22 Q1320,4 1440,28 L1440,70 Z" fill="#3A6B35"/>
+    <path d="M200,45 Q215,28 235,38 Q220,50 200,45" fill="#5A9B52" opacity="0.4"/>
+    <path d="M680,30 Q695,14 712,24 Q700,36 680,30" fill="#5A9B52" opacity="0.35"/>
+    <path d="M1100,38 Q1115,22 1132,32 Q1120,44 1100,38" fill="#5A9B52" opacity="0.4"/>
+    <circle cx="350" cy="48" r="4" fill="#E8872A" opacity="0.5"/>
+    <circle cx="820" cy="28" r="3" fill="#C4362A" opacity="0.45"/>
+    <circle cx="1280" cy="42" r="4" fill="#E8C840" opacity="0.4"/>
+  </svg>
+</div>
+
+<!-- WHERE HE IS NOW -->
+<section class="fade-in">
+  <div class="section-tag">Where he is now</div>
+  <h2 class="section-title">Month 16<br>snapshot</h2>
+  <div class="snapshot-grid">
+    <div class="snapshot-card">
+      <h4>💬 Language</h4>
+      <ul class="snapshot-list">
+        <li>20+ words across English, Tamil, Hindi</li>
+        <li>Two-word combinations — "more mammam," "dudu bye bye"</li>
+        <li>Names family — anna, akka, Aarti</li>
+        <li>Said "bird" spontaneously on seeing one</li>
+        <li>Invented signs — helmet for cycling, wrist-rev for motorbike</li>
+        <li>Counts 1–4 in English and Hindi</li>
+      </ul>
+    </div>
+    <div class="snapshot-card">
+      <h4>🖐️ Fine Motor</h4>
+      <ul class="snapshot-list">
+        <li>Threads rubber bands onto toilet roll independently</li>
+        <li>Beginning bead threading</li>
+        <li>Pours self-correcting mid-pour</li>
+        <li>Pincer grip confirmed with chickpeas</li>
+        <li>Opens and closes zips independently</li>
+        <li>Stacks 3–4 blocks</li>
+      </ul>
+    </div>
+    <div class="snapshot-card">
+      <h4>🚶 Gross Motor</h4>
+      <ul class="snapshot-list">
+        <li>Walking and running confidently</li>
+        <li>Climbing stairs holding both hands</li>
+        <li>One foot on Pikler — exploring</li>
+        <li>Balance bike — very short sessions, just about reversing</li>
+        <li>Kicks a ball while walking</li>
+        <li>Swims weekly</li>
+      </ul>
+    </div>
+    <div class="snapshot-card">
+      <h4>🔬 Who he is as a learner</h4>
+      <ul class="snapshot-list">
+        <li>Deeply investigative — when something catches him, he goes all the way in</li>
+        <li>Self-directed — initiates his own investigations without being set up</li>
+        <li>Mechanism-obsessed — drawn to things that respond to his actions</li>
+        <li>Sensory scientist — runs his own experiments, makes his own discoveries</li>
+        <li>Cautious then fully committed — calibrates first, then goes deep</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT THEY NEED -->
+<section class="fade-in">
+  <div class="section-tag">This month</div>
+  <h2 class="section-title">What your toddler<br>needs to learn</h2>
+  <div class="needs-grid">
+    <div class="need-card" data-emoji="🍎">
+      <span class="need-emoji">🍎</span>
+      <h3>Real food, real vocabulary</h3>
+      <p>Food is encountered multiple times every day. This month names what's already on the table — apple, banana, mango, lemon. High repetition, high relevance.</p>
+    </div>
+    <div class="need-card" data-emoji="🔬">
+      <span class="need-emoji">🔬</span>
+      <h3>Inquiry thinking</h3>
+      <p>At 16 months they can hold a question and wait for an answer. Does it sink or float? What colour inside? The beginning of scientific thinking.</p>
+    </div>
+    <div class="need-card" data-emoji="🔪">
+      <span class="need-emoji">🔪</span>
+      <h3>Real tools, real tasks</h3>
+      <p>A toddler-safe knife on soft fruit builds hand strength, bilateral coordination, and the sense that doing real things matters.</p>
+    </div>
+    <div class="need-card wide" data-emoji="🎨">
+      <span class="need-emoji" style="font-size:36px">🎨</span>
+      <div>
+        <h3>Colour through fruit</h3>
+        <p>Red apple, yellow banana, orange mango, green avocado. Fruit is the richest natural colour vocabulary available. October colour month will build directly on what's established here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INQUIRY KITCHEN -->
+<div class="inquiry-section fade-in">
+  <div class="inquiry-inner">
+    <div class="section-tag">Inquiry kitchen</div>
+    <h2 class="section-title">The investigation</h2>
+    <p class="inquiry-intro">Each inquiry follows the same arc: observe the outside, predict, transform, discover the inside, compare, name the sound. Ask questions and wait. There are no wrong answers — only observations.</p>
+
+    <div class="inquiry-cards">
+      <div class="inquiry-card">
+        <div class="inquiry-header">
+          <span class="inquiry-emoji">🍎</span>
+          <div><h4>Apple</h4><div class="phonics">aeh · aeh · Apple</div></div>
+        </div>
+        <div class="inquiry-steps">
+          <div class="inquiry-step"><span class="step-num">1</span><span class="step-text">What colour is it? <strong>Red.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">2</span><span class="step-text">Feel it — smooth or bumpy? <strong>Smooth.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">3</span><span class="step-text">Drop in a tub of water — sink or float? <strong>Floats.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">4</span><span class="step-text">Cut with the toddler knife — what colour inside? <strong>Creamy white.</strong> Different from outside.</span></div>
+          <div class="inquiry-step"><span class="step-num">5</span><span class="step-text">What colour are the seeds? <strong>Brown.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">6</span><span class="step-text">Does the seed sink or float? <strong>Sinks.</strong> Different from the apple.</span></div>
+          <div class="inquiry-step"><span class="step-num">7</span><span class="step-text">Smell it. Taste a piece. <strong>Sweet.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">8</span><span class="step-text">This is <strong>aeh · aeh · Apple.</strong></span></div>
+        </div>
+      </div>
+
+      <div class="inquiry-card">
+        <div class="inquiry-header">
+          <span class="inquiry-emoji">🍌</span>
+          <div><h4>Banana</h4><div class="phonics">buh · buh · Banana</div></div>
+        </div>
+        <div class="inquiry-steps">
+          <div class="inquiry-step"><span class="step-num">1</span><span class="step-text">What colour? <strong>Yellow.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">2</span><span class="step-text">What shape? <strong>Curved — bendy.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">3</span><span class="step-text">Peel it together — what's inside? <strong>White.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">4</span><span class="step-text">Cut a piece with the toddler knife. Does it come apart easily? <strong>Yes — soft.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">5</span><span class="step-text">Put a piece in water — sink or float? <strong>Sinks.</strong> Different from apple.</span></div>
+          <div class="inquiry-step"><span class="step-num">6</span><span class="step-text">Mash a piece with fingers. <strong>Turns to mush.</strong> Transformation.</span></div>
+          <div class="inquiry-step"><span class="step-num">7</span><span class="step-text">This is <strong>buh · buh · Banana.</strong></span></div>
+        </div>
+        <div class="inquiry-note">Apple and banana — both have white inside, but apple floats and banana sinks. Same colour inside, different in water.</div>
+      </div>
+
+      <div class="inquiry-card">
+        <div class="inquiry-header">
+          <span class="inquiry-emoji">🥭</span>
+          <div><h4>Mango</h4><div class="phonics">mmm · mmm · Mango</div></div>
+        </div>
+        <div class="inquiry-steps">
+          <div class="inquiry-step"><span class="step-num">1</span><span class="step-text">What colour? <strong>Yellow-orange.</strong> Between yellow and orange.</span></div>
+          <div class="inquiry-step"><span class="step-num">2</span><span class="step-text">Smell before cutting — <strong>sweet and strong.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">3</span><span class="step-text">Cut with the toddler knife — what colour inside? <strong>Orange. Bright.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">4</span><span class="step-text">What's in the middle? <strong>A big flat seed.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">5</span><span class="step-text">Touch the flesh — <strong>slippery and soft.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">6</span><span class="step-text">Taste it — <strong>sweet.</strong> Same as apple and banana.</span></div>
+          <div class="inquiry-step"><span class="step-num">7</span><span class="step-text">This is <strong>mmm · mmm · Mango.</strong> Hold the mmm sound for two seconds.</span></div>
+        </div>
+      </div>
+
+      <div class="inquiry-card">
+        <div class="inquiry-header">
+          <span class="inquiry-emoji">🍋</span>
+          <div><h4>Lemon</h4><div class="phonics">lll · lll · Lemon</div></div>
+        </div>
+        <div class="inquiry-steps">
+          <div class="inquiry-step"><span class="step-num">1</span><span class="step-text">What colour? <strong>Yellow</strong> — same as banana. Two yellow fruits, different shapes.</span></div>
+          <div class="inquiry-step"><span class="step-num">2</span><span class="step-text">Feel the outside — smooth or bumpy? <strong>Bumpy.</strong> Different from banana even though same colour.</span></div>
+          <div class="inquiry-step"><span class="step-num">3</span><span class="step-text">Smell before cutting — mild.</span></div>
+          <div class="inquiry-step"><span class="step-num">4</span><span class="step-text">Cut with the plastic knife when it arrives. What colour inside? <strong>Also yellow, but wet.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">5</span><span class="step-text">Smell it now — <strong>completely different. Sharp and strong.</strong></span></div>
+          <div class="inquiry-step"><span class="step-num">6</span><span class="step-text">Taste a tiny drop — <strong>sour face.</strong> New word: "Sour."</span></div>
+          <div class="inquiry-step"><span class="step-num">7</span><span class="step-text">Add bicarbonate — <strong>fizzes.</strong> Same as the vinegar sensory bins.</span></div>
+          <div class="inquiry-step"><span class="step-num">8</span><span class="step-text">This is <strong>lll · lll · Lemon.</strong> Hold the lll sound, tongue behind top teeth.</span></div>
+        </div>
+        <div class="inquiry-note">Save the lemon for end of month when the plastic knife arrives. The sour reaction will be the most memorable moment of the series.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FRUIT VOCAB -->
+<div class="fruit-section fade-in">
+  <div class="fruit-inner">
+    <div class="section-tag">Theme</div>
+    <h2 class="section-title" style="color:var(--bark)">Fruit & food<br>vocabulary</h2>
+    <div class="fruit-grid">
+      <div class="fruit-card"><span class="fruit-emoji">🍎</span><div class="fruit-name">Apple</div><div class="fruit-word">aeh</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🍌</span><div class="fruit-name">Banana</div><div class="fruit-word">buh</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🥭</span><div class="fruit-name">Mango</div><div class="fruit-word">mmm</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🍋</span><div class="fruit-name">Lemon</div><div class="fruit-word">lll</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🍊</span><div class="fruit-name">Orange</div><div class="fruit-word">ooh</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🐉</span><div class="fruit-name">Dragon fruit</div><div class="fruit-word">duh</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🍅</span><div class="fruit-name">Tomato</div><div class="fruit-word">tuh</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🍓</span><div class="fruit-name">Strawberry</div><div class="fruit-word">sss</div></div>
+      <div class="fruit-card"><span class="fruit-emoji">🍐</span><div class="fruit-name">Pear</div><div class="fruit-word">puh</div></div>
+    </div>
+    <div class="basket-note">
+      <h4>🧺 Language basket</h4>
+      <p>Real fruit from the kitchen alongside the felt mango, spring onion, baguette, and egg. The spring onion and baguette broaden the "food" half of this month beyond fruit. The egg bridges back to farm month — "egg comes from the chicken." Rotate 3–4 items at a time. Real mango beside felt mango — "both mangoes, same."</p>
+    </div>
+  </div>
+</div>
+
+<!-- MONTESSORI -->
+<section class="fade-in">
+  <div class="section-tag">Montessori practical life</div>
+  <h2 class="section-title">Purposeful<br>hands</h2>
+  <div class="mont-list">
+    <div class="mont-item">
+      <span class="mont-icon">🥄</span>
+      <div>
+        <h4>Ladle transfer across muffin tray</h4>
+        <p>A ladle, a bowl of water or small objects, a muffin tray. Transfer one scoop per compartment. The size of the ladle relative to the compartment makes this genuinely challenging — both hands working, aim required. One-to-one correspondence built in naturally.</p>
+      </div>
+    </div>
+    <div class="mont-item">
+      <span class="mont-icon">🫘</span>
+      <div>
+        <h4>Spoon bean transfer</h4>
+        <p>Chickpeas or dried beans, a spoon, two bowls. Scoop from one bowl, transfer to the other. The beans roll off the spoon — that productive difficulty is the whole point. Pincer grip already confirmed with chickpeas so the material is well matched.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ART -->
+<div class="art-section fade-in">
+  <div class="art-inner">
+    <div class="section-tag">Art</div>
+    <h2 class="section-title">Making marks<br>this month</h2>
+    <div class="art-items">
+      <div class="art-item">
+        <span class="art-icon">🍎</span>
+        <div>
+          <h4>Fruit and vegetable stamp printing</h4>
+          <p>Cut in half, dip in paint, press onto paper. Each produces a completely different print — apple reveals a star-shaped seed pattern, ladies finger reveals a perfect five-pointed star, broccoli floret makes a tree shape, potato makes a clean oval. Cut, look, name it, print it. The cross-section discovery is an inquiry moment before the art begins.</p>
+        </div>
+      </div>
+      <div class="art-item">
+        <span class="art-icon">🪡</span>
+        <div>
+          <h4>String art</h4>
+          <p>Dip string in paint, drag across paper. The result is completely unpredictable — trails, pools, branches. Fold paper over the string and pull for a different effect. Drop string from a height. Each technique produces a different result from the same material. The unpredictability is what holds attention — he can't control the outcome fully, so every print is a discovery.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYDOUGH -->
+<div class="dough-section fade-in">
+  <div class="dough-inner">
+    <div class="section-tag">Playdough kitchen</div>
+    <h2 class="section-title">Making &<br>shaping</h2>
+    <div class="dough-items">
+      <div class="dough-item">
+        <span class="dough-icon">🫙</span>
+        <div>
+          <h4>Making the dough</h4>
+          <p>He participates in the making — pouring, stirring, watching the transformation from powder to dough. Add food colouring to match fruit colours: red batch, yellow batch, orange batch.</p>
+        </div>
+      </div>
+      <div class="dough-item">
+        <span class="dough-icon">🎭</span>
+        <div>
+          <h4>Rolling and cutting</h4>
+          <p>The KiwiCo pasta maker and cutters. Roll out, press, cut shapes. The rolling motion — both hands pressing outward — is new bilateral wrist work.</p>
+        </div>
+      </div>
+      <div class="dough-item">
+        <span class="dough-icon">🔪</span>
+        <div>
+          <h4>Knife practice on dough</h4>
+          <p>Safe practice before cutting real fruit. Press down, feel the resistance, watch the dough separate. Build confidence on dough, transfer to banana and avocado with the toddler knife.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SENSORY -->
+<section class="fade-in">
+  <div class="section-tag">Sensory play</div>
+  <h2 class="section-title">Colour-based<br>exploration</h2>
+  <div class="sensory-cards">
+    <div class="sensory-card">
+      <div class="sensory-num">01</div>
+      <div>
+        <h4>Colour mixing water</h4>
+        <p>Red water and yellow water in separate jugs. Pour together — makes orange. Fruit month colour connection. "Red and yellow make orange — like a mango." The mixing moment is the payoff.</p>
+      </div>
+    </div>
+    <div class="sensory-card">
+      <div class="sensory-num">02</div>
+      <div>
+        <h4>Colour sorting loose parts</h4>
+        <p>Red, yellow, orange, green objects into matching colour bowls. Simple grouping by colour. Bridges directly into October colour month — the vocabulary being built now gets its dedicated month next.</p>
+      </div>
+    </div>
+    <div class="sensory-card">
+      <div class="sensory-num">03</div>
+      <div>
+        <h4>Scent jars — Indian pantry</h4>
+        <p>Crush a fresh curry leaf, coriander, mint, or ajwain into small jars. Hold to his nose one at a time — smell, name, react. "Curry leaf. Strong." "Mint. Fresh." No tasting required. The Indian pantry is a richer scent library than any synthetic essence — and the vocabulary is culturally his.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MECHANISM -->
+<div class="mech-section fade-in">
+  <div class="mech-inner">
+    <div class="section-tag">Keeping the mechanism alive</div>
+    <h2 class="section-title">For the motorcycle<br>obsession</h2>
+    <div class="mech-items">
+      <div class="mech-item">
+        <span class="mech-icon">🔪</span>
+        <div>
+          <h4>The knife is a mechanism</h4>
+          <p>Press down, feel resistance, watch the fruit separate. Functional tool logic — exactly what captivates him. Lead with the mechanism, not the food vocabulary. The cutting is the interesting part.</p>
+        </div>
+      </div>
+      <div class="mech-item">
+        <span class="mech-icon">⚙️</span>
+        <div>
+          <h4>The pasta maker is a mechanism</h4>
+          <p>Feed dough through, turn the handle, watch it emerge transformed. Cause and effect at a satisfying scale. The transformation from blob to strand is the same instinct that drives the oobleck investigations.</p>
+        </div>
+      </div>
+      <div class="mech-item">
+        <span class="mech-icon">🚗</span>
+        <div>
+          <h4>Keep one vehicle in the rotation</h4>
+          <p>Transport month is over but his interest isn't. The flip car track, the cog wheel puzzle, the wooden vehicles — one mechanism toy alongside the fruit theme each week. The obsession doesn't need its own month to stay fed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROSS MOTOR -->
+<section class="fade-in">
+  <div class="section-tag">Gross motor</div>
+  <h2 class="section-title">Moving the<br>whole body</h2>
+  <div class="gross-items">
+    <div class="gross-item">
+      <span class="gross-icon">⚽</span>
+      <div>
+        <h4>Ball rolling and passing</h4>
+        <p>Sit facing each other, roll back and forth. When rolling is consistent, introduce gentle kicking toward a target. The ball is the reason for turn-taking — social and motor simultaneously.</p>
+        <span class="gross-tag">Turn-taking · Bilateral coordination</span>
+      </div>
+    </div>
+    <div class="gross-item">
+      <span class="gross-icon">🔺</span>
+      <div>
+        <h4>Pikler triangle — climbing</h4>
+        <p>One foot on the triangle — exploring. This month work toward both feet on, reaching the top, coming down facing inward. The achievement of reaching the top drives repetition.</p>
+        <span class="gross-tag">Climbing · Upper body strength</span>
+      </div>
+    </div>
+    <div class="gross-item">
+      <span class="gross-icon">🚲</span>
+      <div>
+        <h4>Balance bike — patience</h4>
+        <p>West Coast Park 1–2x per week. Very short sessions right now — that's fine. Flat smooth surfaces, no pressure. The scooting will arrive in its own time. Keep sessions positive and brief.</p>
+        <span class="gross-tag">Balance · Vestibular · Outdoor</span>
+      </div>
+    </div>
+    <div class="gross-item">
+      <span class="gross-icon">🏊</span>
+      <div>
+        <h4>Swimming 1–2x per week</h4>
+        <p>Wall grab more independent. Beginning of intentional kick. The water confidence window remains open — every session counts.</p>
+        <span class="gross-tag">Water confidence · Kick development</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATHS -->
+<div class="maths-section fade-in">
+  <div class="maths-inner">
+    <div class="section-tag">Early maths</div>
+    <h2 class="section-title" style="color:var(--cream)">How maths sounds<br>in September</h2>
+    <div class="maths-concepts">
+      <div class="maths-concept"><div class="concept-pair">Same / Different</div><div class="concept-example">"Both yellow — different fruits."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Big / Small</div><div class="concept-example">"Big mango, small grape."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Sink / Float</div><div class="concept-example">"Apple floats. Banana sinks."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Sweet / Sour</div><div class="concept-example">"Apple sweet. Lemon sour."</div></div>
+      <div class="maths-concept"><div class="concept-pair">Smooth / Bumpy</div><div class="concept-example">"Apple smooth. Lemon bumpy."</div></div>
+      <div class="maths-concept"><div class="concept-pair">More / Less</div><div class="concept-example">"More grapes on this side."</div></div>
+    </div>
+    <div class="maths-tip">
+      <h4>New this month — same and different</h4>
+      <p>September introduces comparative classification. Both apple and banana are sweet — same. Apple floats and banana sinks — different. The inquiry format produces these comparisons naturally. The investigation IS the maths.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<section class="fade-in">
+  <div class="section-tag">What we have</div>
+  <h2 class="section-title">Resources at home<br>for September</h2>
+  <div class="resources-grid">
+    <div class="resource-cat">
+      <h4>🍎 Fruit & food</h4>
+      <ul class="resource-list">
+        <li>Real fruit — apple, banana, mango, lemon, orange, dragon fruit</li>
+        <li>4 felt fruit & vegetable toys</li>
+        <li>Toddler-safe knife</li>
+        <li>Plastic knife (arriving end of month)</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🎨 Art</h4>
+      <ul class="resource-list">
+        <li>Apple, ladies finger, broccoli, potato for stamping</li>
+        <li>Paint — red, yellow, orange, green</li>
+        <li>String in various thicknesses</li>
+        <li>Large paper sheets</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🫘 Playdough</h4>
+      <ul class="resource-list">
+        <li>Homemade dough — multiple batches</li>
+        <li>KiwiCo pasta maker + cutters</li>
+        <li>Food colouring — red, yellow, orange</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🧺 Montessori</h4>
+      <ul class="resource-list">
+        <li>Ladle + muffin tray + bowl</li>
+        <li>Spoon + chickpeas + two bowls</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🌿 Sensory</h4>
+      <ul class="resource-list">
+        <li>Food colouring — red, yellow, orange</li>
+        <li>Two jugs for colour mixing</li>
+        <li>Colour sorting loose parts</li>
+        <li>Fresh herbs — curry leaf, coriander, mint, ajwain</li>
+        <li>Small jars for scent work</li>
+        <li>Large clear tub for sink/float</li>
+      </ul>
+    </div>
+    <div class="resource-cat">
+      <h4>🪨 Gross motor</h4>
+      <ul class="resource-list">
+        <li>Soft ball for rolling and passing</li>
+        <li>Pikler triangle</li>
+        <li>Balance bike — West Coast Park 1–2x</li>
+        <li>Swimming 1–2x per week</li>
+      </ul>
+    </div>
+    <div class="resource-cat full">
+      <h4>🇸🇬 Singapore outings for food month</h4>
+      <ul class="resource-list" style="display:grid; grid-template-columns:1fr 1fr; gap:5px 24px;">
+        <li>Tekka Market, Little India — fruit and vegetable stalls at scale, smell and colour</li>
+        <li>Jacob Ballas Children's Garden — fruit and vegetable garden, free entry</li>
+        <li>Botanic Gardens Healing Garden — aromatic herbs to smell, connects to scent jars</li>
+        <li>Kranji Countryside — farm stalls, eggs, herbs, vegetables at source</li>
+        <li>Any wet market — real produce vocabulary in a real environment</li>
+        <li>Gardens by the Bay — fruit trees in the cooled conservatories</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GOLDEN RULE -->
+<div class="golden-rule">
+  <p>"Every fruit cut open is a <strong>world he didn't know existed</strong> thirty seconds ago."</p>
+  <a href="index.html">← Back to Sprout</a>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
